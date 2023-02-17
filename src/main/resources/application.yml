@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/basecamp?useSSL=false
+    username: root
+    password: 
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+     hibernate: 
+       format_sql: true
+  jwt:
+    secret: EfdsfERW8sdffER7sDFErwfsdFRTgrgdf9RtertfDSFs3432
+   
+server:
+  port: 8084
+
