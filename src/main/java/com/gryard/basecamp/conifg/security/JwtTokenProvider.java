@@ -24,6 +24,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
@@ -103,14 +104,17 @@ public class JwtTokenProvider {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
+            throw new JwtException("유효하지 않은 JWT 토큰");
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
+            throw new JwtException("토큰 기한 만료");
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
+            throw new JwtException("Unsupported JWT Token.");
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
+            throw new JwtException("JWT claims string is empty.");
         }
-        return false;
     }
     
     private Claims parseClaims(String accessToken) {
