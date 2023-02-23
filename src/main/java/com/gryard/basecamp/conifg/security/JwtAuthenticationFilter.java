@@ -20,18 +20,18 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 	
 	private final JwtTokenProvider jwtTokenProvider;
 	
-	// Request·Î µé¾î¿À´Â Jwt TokenÀÇ À¯È¿¼ºÀ» °ËÁõ(jwtTokenProvider.validateToken)ÇÏ´Â filter¸¦ filterChain¿¡ µî·ÏÇÕ´Ï´Ù.
+	// Requestë¡œ ë“¤ì–´ì˜¤ëŠ” Jwt Tokenì˜ ìœ íš¨ì„±ì„ ê²€ì¦(jwtTokenProvider.validateToken)í•˜ëŠ” filterë¥¼ filterChainì— ë“±ë¡í•©ë‹ˆë‹¤.
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		
-		// 1. Request Header ¿¡¼­ JWT ÅäÅ« ÃßÃâ
+		// 1. Request Header ì—ì„œ JWT í† í° ì¶”ì¶œ
         String token = resolveToken((HttpServletRequest) request);
  
-        // 2. validateToken À¸·Î ÅäÅ« À¯È¿¼º °Ë»ç
+        // 2. validateToken ìœ¼ë¡œ í† í° ìœ íš¨ì„± ê²€ì‚¬
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            // ÅäÅ«ÀÌ À¯È¿ÇÒ °æ¿ì ÅäÅ«¿¡¼­ Authentication °´Ã¼¸¦ °¡Áö°í ¿Í¼­ SecurityContext ¿¡ ÀúÀå
+        	// í† í°ì´ ìœ íš¨í•  ê²½ìš° í† í°ì—ì„œ Authentication ê°ì²´ë¥¼ ê°€ì§€ê³  ì™€ì„œ SecurityContext ì— ì €ì¥
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		
 	}
 	
-	// Request Header ¿¡¼­ ÅäÅ« Á¤º¸ ÃßÃâ
+	// Request Header ì—ì„œ í† í° ì •ë³´ ì¶”ì¶œ
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {

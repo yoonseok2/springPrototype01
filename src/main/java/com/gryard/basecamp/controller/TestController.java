@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * È¯°æ ¼³Á¤ È®ÀÎ¿ë ÄÁÆ®·Ñ·¯
+ * í™˜ê²½ ì„¤ì • í™•ì¸ìš© ì»¨íŠ¸ë¡¤ëŸ¬
  */
 
 @Slf4j
@@ -28,13 +28,14 @@ public class TestController {
 	public TokenInfo login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
 		String memberId = memberLoginRequestDto.getMemUserid();
         String password = memberLoginRequestDto.getMemPassword();
-        log.info(password);
+
         TokenInfo tokenInfo = memberService.login(memberId, password);
         return tokenInfo;
 	}
 	
 	@PostMapping("/test")
 	public String test() {
+		
 		return "test";
 	}
 }

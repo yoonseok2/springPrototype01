@@ -45,17 +45,17 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
  
-    // À¯Àú Á¤º¸¸¦ °¡Áö°í AccessToken, RefreshToken À» »ı¼ºÇÏ´Â ¸Ş¼­µå
+    // ìœ ì € ì •ë³´ë¥¼ ê°€ì§€ê³  AccessToken, RefreshToken ì„ ìƒì„±í•˜ëŠ” ë©”ì„œë“œ
     public TokenInfo generateToken(Authentication authentication) {
     	
-        // ±ÇÇÑ °¡Á®¿À±â
+        // ê¶Œí•œ ê°€ì ¸ì˜¤ê¸°
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
  
         long now = (new Date()).getTime();
         
-        // Access Token »ı¼º
+        // Access Token ìƒì„±
         Date accessTokenExpiresIn = new Date(now + accessTokenValidMilisecond);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
@@ -64,7 +64,7 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
  
-        // Refresh Token »ı¼º
+        // Refresh Token ìƒì„±
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + refreshTokenValidMilisecond))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -77,37 +77,37 @@ public class JwtTokenProvider {
                 .build();
     }
     
-    // JWT ÅäÅ«À» º¹È£È­ÇÏ¿© ÅäÅ«¿¡ µé¾îÀÖ´Â Á¤º¸¸¦ ²¨³»´Â ¸Ş¼­µå
+    // JWT í† í°ì„ ë³µí˜¸í™”í•˜ì—¬ í† í°ì— ë“¤ì–´ìˆëŠ” ì •ë³´ë¥¼ êº¼ë‚´ëŠ” ë©”ì„œë“œ
     public Authentication getAuthentication(String accessToken) {
-        // ÅäÅ« º¹È£È­
+        // í† í° ë³µí˜¸í™”
         Claims claims = parseClaims(accessToken);
  
         if (claims.get("auth") == null) {
-            throw new RuntimeException("±ÇÇÑ Á¤º¸°¡ ¾ø´Â ÅäÅ«ÀÔ´Ï´Ù.");
+            throw new RuntimeException("ê¶Œí•œ ì •ë³´ê°€ ì—†ëŠ” í† í°ì…ë‹ˆë‹¤.");
         }
  
-        // Å¬·¹ÀÓ¿¡¼­ ±ÇÇÑ Á¤º¸ °¡Á®¿À±â
+        // í´ë ˆì„ì—ì„œ ê¶Œí•œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get("auth").toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
  
-        // UserDetails °´Ã¼¸¦ ¸¸µé¾î¼­ Authentication ¸®ÅÏ
+        // UserDetails ê°ì²´ë¥¼ ë§Œë“¤ì–´ì„œ Authentication ë¦¬í„´
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
     
-    // ÅäÅ« Á¤º¸¸¦ °ËÁõÇÏ´Â ¸Ş¼­µå
+    // í† í° ì •ë³´ë¥¼ ê²€ì¦í•˜ëŠ” ë©”ì„œë“œ
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
-            throw new JwtException("À¯È¿ÇÏÁö ¾ÊÀº JWT ÅäÅ«");
+            throw new JwtException("ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ JWT ï¿½ï¿½Å«");
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
-            throw new JwtException("ÅäÅ« ±âÇÑ ¸¸·á");
+            throw new JwtException("ï¿½ï¿½Å« ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
             throw new JwtException("Unsupported JWT Token.");

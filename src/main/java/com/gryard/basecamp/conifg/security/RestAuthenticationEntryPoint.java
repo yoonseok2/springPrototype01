@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * 401 Error °ü·Ã Ã³¸® ·ÎÁ÷
+ * 401 Error ê´€ë ¨ ì²˜ë¦¬ ë¡œì§
  * */
 @Component
 @Slf4j
@@ -32,13 +32,13 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 		log.error("UnAuthorizaed!!! message : " + authException.getMessage());
 		final Map<String, Object> body = new HashMap<>();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        // ÀÀ´ä °´Ã¼ ÃÊ±âÈ­
+        // ì‘ë‹µ ê°ì²´ ì´ˆê¸°í™”
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         body.put("error", "Unauthorized");
         body.put("message", authException.getMessage());
         body.put("path", request.getServletPath());
         final ObjectMapper mapper = new ObjectMapper();
-        // response °´Ã¼¿¡ ÀÀ´ä °´Ã¼¸¦ ³Ö¾îÁÜ
+        // response ê°ì²´ì— ì‘ë‹µ ê°ì²´ë¥¼ ë„£ì–´ì¤Œ
         mapper.writeValue(response.getOutputStream(), body);
         response.setStatus(HttpServletResponse.SC_OK);
 		

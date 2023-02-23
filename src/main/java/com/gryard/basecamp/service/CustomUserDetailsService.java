@@ -23,16 +23,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	log.info(username);
         return memberRepository.findByMemUserid(username)
                 .map(this::createUserDetails)
-                .orElseThrow(() -> new UsernameNotFoundException("ÇØ´çÇÏ´Â À¯Àú¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù."));
+                .orElseThrow(() -> new UsernameNotFoundException("í•´ë‹¹í•˜ëŠ” ìœ ì €ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤."));
     }
  
-    // ÇØ´çÇÏ´Â User ÀÇ µ¥ÀÌÅÍ°¡ Á¸ÀçÇÑ´Ù¸é UserDetails °´Ã¼·Î ¸¸µé¾î¼­ ¸®ÅÏ
+    // í•´ë‹¹í•˜ëŠ” User ì˜ ë°ì´í„°ê°€ ì¡´ì¬í•œë‹¤ë©´ UserDetails ê°ì²´ë¡œ ë§Œë“¤ì–´ì„œ ë¦¬í„´
     private UserDetails createUserDetails(Member member) {
-    	log.info(member.getUsername());
-    	log.info(member.getPassword());
         return User.builder()
                 .username(member.getUsername())
                 .password(passwordEncoder.encode(member.getPassword()))

@@ -23,15 +23,15 @@ public class MemberService {
 	
 	@Transactional
     public TokenInfo login(String memberId, String password) {
-        // 1. Login ID/PW ¸¦ ±â¹İÀ¸·Î Authentication °´Ã¼ »ı¼º
-        // ÀÌ¶§ authentication ´Â ÀÎÁõ ¿©ºÎ¸¦ È®ÀÎÇÏ´Â authenticated °ªÀÌ false
+        // 1. Login ID/PW ë¥¼ ê¸°ë°˜ìœ¼ë¡œ Authentication ê°ì²´ ìƒì„±
+        // ì´ë•Œ authentication ëŠ” ì¸ì¦ ì—¬ë¶€ë¥¼ í™•ì¸í•˜ëŠ” authenticated ê°’ì´ false
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberId, password);
  
-        // 2. ½ÇÁ¦ °ËÁõ (»ç¿ëÀÚ ºñ¹Ğ¹øÈ£ Ã¼Å©)ÀÌ ÀÌ·ç¾îÁö´Â ºÎºĞ
-        // authenticate ¸Å¼­µå°¡ ½ÇÇàµÉ ¶§ CustomUserDetailsService ¿¡¼­ ¸¸µç loadUserByUsername ¸Ş¼­µå°¡ ½ÇÇà
+        // 2. ì‹¤ì œ ê²€ì¦ (ì‚¬ìš©ì ë¹„ë°€ë²ˆí˜¸ ì²´í¬)ì´ ì´ë£¨ì–´ì§€ëŠ” ë¶€ë¶„
+        // authenticate ë§¤ì„œë“œê°€ ì‹¤í–‰ë  ë•Œ CustomUserDetailsService ì—ì„œ ë§Œë“  loadUserByUsername ë©”ì„œë“œê°€ ì‹¤í–‰
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
  
-        // 3. ÀÎÁõ Á¤º¸¸¦ ±â¹İÀ¸·Î JWT ÅäÅ« »ı¼º
+        // 3. ì¸ì¦ ì •ë³´ë¥¼ ê¸°ë°˜ìœ¼ë¡œ JWT í† í° ìƒì„±
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
  
         return tokenInfo;

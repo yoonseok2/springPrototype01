@@ -29,23 +29,23 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .httpBasic().disable()
-            .csrf().disable() // rest apiÀÌ¹Ç·Î basic auth ¹× csrf º¸¾ÈÀ» »ç¿ëÇÏÁö ¾Ê´Â´Ù´Â ¼³Á¤
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT¸¦ »ç¿ëÇÏ±â ¶§¹®¿¡ ¼¼¼ÇÀ» »ç¿ëÇÏÁö ¾Ê´Â´Ù´Â ¼³Á¤
+            .csrf().disable() // rest apiì´ë¯€ë¡œ basic auth ë° csrf ë³´ì•ˆì„ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ”ë‹¤ëŠ” ì„¤ì •
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWTë¥¼ ì‚¬ìš©í•˜ê¸° ë•Œë¬¸ì— ì„¸ì…˜ì„ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ”ë‹¤ëŠ” ì„¤ì •
             .and()
             .exceptionHandling()
             	.authenticationEntryPoint(new RestAuthenticationEntryPoint())
             	.and()
             .authorizeRequests() 
-            .antMatchers("/api/login").permitAll() // ÇØ´ç API¿¡ ´ëÇØ¼­´Â ¸ğµç ¿äÃ»À» Çã°¡ÇÑ´Ù´Â ¼³Á¤
-            .antMatchers("/api/test").hasRole("USER") // USER ±ÇÇÑÀÌ ÀÖ¾î¾ß ¿äÃ»ÇÒ ¼ö ÀÖ´Ù´Â ¼³Á¤
-            .anyRequest().authenticated() // ÀÌ ¹Û¿¡ ¸ğµç ¿äÃ»¿¡ ´ëÇØ¼­ ÀÎÁõÀ» ÇÊ¿ä·Î ÇÑ´Ù´Â ¼³Á¤
+            .antMatchers("/api/login").permitAll() // í•´ë‹¹ APIì— ëŒ€í•´ì„œëŠ” ëª¨ë“  ìš”ì²­ì„ í—ˆê°€í•œë‹¤ëŠ” ì„¤ì •
+            .antMatchers("/api/test").hasRole("USER") // USER ê¶Œí•œì´ ìˆì–´ì•¼ ìš”ì²­í•  ìˆ˜ ìˆë‹¤ëŠ” ì„¤ì •
+            .anyRequest().authenticated() // ì´ ë°–ì— ëª¨ë“  ìš”ì²­ì— ëŒ€í•´ì„œ ì¸ì¦ì„ í•„ìš”ë¡œ í•œë‹¤ëŠ” ì„¤ì •
             .and()
-            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class) // JWT ÀÎÁõÀ» À§ÇÏ¿© Á÷Á¢ ±¸ÇöÇÑ ÇÊÅÍ¸¦ UsernamePasswordAuthenticationFilter Àü¿¡ ½ÇÇàÇÏ°Ú´Ù´Â ¼³Á¤
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class) // JWT ì¸ì¦ì„ ìœ„í•˜ì—¬ ì§ì ‘ êµ¬í˜„í•œ í•„í„°ë¥¼ UsernamePasswordAuthenticationFilter ì „ì— ì‹¤í–‰í•˜ê² ë‹¤ëŠ” ì„¤ì •
             .addFilterBefore(JwtExceptionFilter,new JwtAuthenticationFilter(jwtTokenProvider).getClass());
         return http.build();
     }
  
-	// JWT¸¦ »ç¿ëÇÏ±â À§ÇØ¼­´Â ±âº»ÀûÀ¸·Î password encoder°¡ ÇÊ¿ä(Bycrypt encoder¸¦ »ç¿ë)
+	// JWTë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•´ì„œëŠ” ê¸°ë³¸ì ìœ¼ë¡œ password encoderê°€ í•„ìš”(Bycrypt encoderë¥¼ ì‚¬ìš©)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();

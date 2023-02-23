@@ -24,9 +24,9 @@ import lombok.NoArgsConstructor;
 
 @Builder
 @Entity
-@Getter // jpa entityÀÓÀ» ¾Ë¸³´Ï´Ù.
-@NoArgsConstructor // ÀÎÀÚ¾ø´Â »ı¼ºÀÚ¸¦ ÀÚµ¿À¸·Î »ı¼ºÇÕ´Ï´Ù.
-@AllArgsConstructor // ÀÎÀÚ¸¦ ¸ğµÎ °®Ãá »ı¼ºÀÚ¸¦ ÀÚµ¿À¸·Î »ı¼ºÇÕ´Ï´Ù.
+@Getter // jpa entityì„ì„ ì•Œë¦½ë‹ˆë‹¤.
+@NoArgsConstructor // ì¸ìì—†ëŠ” ìƒì„±ìë¥¼ ìë™ìœ¼ë¡œ ìƒì„±í•©ë‹ˆë‹¤.
+@AllArgsConstructor // ì¸ìë¥¼ ëª¨ë‘ ê°–ì¶˜ ìƒì„±ìë¥¼ ìë™ìœ¼ë¡œ ìƒì„±í•©ë‹ˆë‹¤.
 public class Member implements UserDetails {
 
 	@Id // pk

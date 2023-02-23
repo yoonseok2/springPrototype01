@@ -19,7 +19,7 @@ import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * JWT °ü·Ã ¿À·ù °ü·Ã Ã³¸® ·ÎÁ÷
+ * JWT ê´€ë ¨ ì˜¤ë¥˜ ê´€ë ¨ ì²˜ë¦¬ ë¡œì§
  * */
 @Component
 @Slf4j
@@ -29,9 +29,9 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		 try {
-			 filterChain.doFilter(request, response); // JwtAuthenticationFilter·Î ÀÌµ¿
+			 filterChain.doFilter(request, response); // JwtAuthenticationFilterë¡œ ì´ë™
         } catch (JwtException ex) {
-            // JwtAuthenticationFilter¿¡¼­ ¿¹¿Ü ¹ß»ıÇÏ¸é ¹Ù·Î setErrorResponse È£Ãâ
+            // JwtAuthenticationFilterì—ì„œ ì˜ˆì™¸ ë°œìƒí•˜ë©´ ë°”ë¡œ setErrorResponse í˜¸ì¶œ
             setErrorResponse(request, response, ex);
         }
 	}
@@ -43,7 +43,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         final Map<String, Object> body = new HashMap<>();
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         body.put("error", "Unauthorized");
-        // ex.getMessage() ¿¡´Â jwtExceptionÀ» ¹ß»ı½ÃÅ°¸é¼­ ÀÔ·ÂÇÑ ¸Ş¼¼Áö°¡ µé¾îÀÖ´Ù.
+        // ex.getMessage() ì—ëŠ” jwtExceptionì„ ë°œìƒì‹œí‚¤ë©´ì„œ ì…ë ¥í•œ ë©”ì„¸ì§€ê°€ ë“¤ì–´ìˆë‹¤.
         body.put("message", ex.getMessage());
         body.put("path", req.getServletPath());
         final ObjectMapper mapper = new ObjectMapper();
