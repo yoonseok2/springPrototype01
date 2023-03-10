@@ -13,7 +13,10 @@ spring:
        format_sql: true
   jwt:
     secret: EfdsfERW8sdffER7sDFErwfsdFRTgrgdf9RtertfDSFs3432
-   
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:      add-mappings: false
 server:
   port: 8084
 

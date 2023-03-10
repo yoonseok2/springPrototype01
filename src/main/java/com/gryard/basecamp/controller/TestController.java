@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gryard.basecamp.dto.MemberLoginRequestDto;
 import com.gryard.basecamp.dto.TokenInfo;
-import com.gryard.basecamp.service.MemberService;
+import com.gryard.basecamp.service.MemberServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api")
 public class TestController {
 	
-	private final MemberService memberService;
+	private final MemberServiceImpl memberService;
 	
 	@PostMapping("/login")
 	public TokenInfo login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {

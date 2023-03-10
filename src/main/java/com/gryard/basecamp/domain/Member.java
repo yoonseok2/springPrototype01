@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,18 +16,21 @@ import javax.persistence.Id;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gryard.basecamp.constant.UserRole;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.AccessLevel;
 
 @Builder
 @Entity
 @Getter // jpa entity임을 알립니다.
-@NoArgsConstructor // 인자없는 생성자를 자동으로 생성합니다.
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 인자없는 생성자를 자동으로 생성합니다.
 @AllArgsConstructor // 인자를 모두 갖춘 생성자를 자동으로 생성합니다.
 public class Member implements UserDetails {
 
@@ -48,9 +53,9 @@ public class Member implements UserDetails {
 	@Column
 	private String memRegistDatetime;
 	
-	@ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<String> roles = new ArrayList<>();
+	@Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRole roles;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -92,6 +97,11 @@ public class Member implements UserDetails {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void encodePassword(PasswordEncoder passwordEncoder) {
+		// TODO Auto-generated method stub
+		this.memPassword = passwordEncoder.encode(this.memPassword);
 	}
 
 }
