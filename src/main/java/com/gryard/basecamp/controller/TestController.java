@@ -1,13 +1,22 @@
 package com.gryard.basecamp.controller;
 
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.gryard.basecamp.dto.CommonResult;
+import com.gryard.basecamp.dto.MemberDto;
 import com.gryard.basecamp.dto.MemberLoginRequestDto;
 import com.gryard.basecamp.dto.TokenInfo;
+import com.gryard.basecamp.exception.LoginCheckException;
 import com.gryard.basecamp.service.MemberServiceImpl;
+import com.gryard.basecamp.service.ResponseService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +32,17 @@ import lombok.extern.slf4j.Slf4j;
 public class TestController {
 	
 	private final MemberServiceImpl memberService;
+	private final ResponseService responseService;
 	
 	@PostMapping("/login")
-	public TokenInfo login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
+	public TokenInfo login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) throws Exception {
 		String memberId = memberLoginRequestDto.getMemUserid();
         String password = memberLoginRequestDto.getMemPassword();
 
+        if((memberId == null || memberId.equals("")) && (password == null || password.equals(""))) {
+        	throw new LoginCheckException();
+        }
+        
         TokenInfo tokenInfo = memberService.login(memberId, password);
         return tokenInfo;
 	}
@@ -37,5 +51,13 @@ public class TestController {
 	public String test() {
 		
 		return "test";
+	}
+	
+	@PostMapping("/addMember")
+	public CommonResult addMember(@RequestBody @Valid MemberDto memberDto) {
+
+		log.info(memberDto.toString());
+		
+		return responseService.getSuccessResult();
 	}
 }

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * 401 Error 관련 처리 로직
+ * 401 Error 관련 처리 로직(인증실패)
  * */
 @Component
 @Slf4j

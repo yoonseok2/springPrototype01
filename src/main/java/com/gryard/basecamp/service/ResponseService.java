@@ -1,6 +1,7 @@
 package com.gryard.basecamp.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,15 @@ public class ResponseService {
         result.setSuccess(false);
         result.setCode(code);   // �ٱ��� ���� �ڵ� ����
         result.setMsg(msg);     // �ٱ��� ���� �޽��� ����
+        return result;
+    }
+    
+    // 실패 결과(Map형태)만 처리하는 메소드
+    public CommonResult getFailResult(int code, Map<String,String> msg) {
+        CommonResult result = new CommonResult();
+        result.setSuccess(false);
+        result.setCode(code);   // �ٱ��� ���� �ڵ� ����
+        result.setMsgMap(msg);     // �ٱ��� ���� �޽��� ����
         return result;
     }
 

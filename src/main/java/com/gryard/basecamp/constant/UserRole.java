@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 public enum UserRole implements EnumModel {
 	ADMIN("ROLE_ADMIN"),
-	USER("ROLE_ADMIN");
+	USER("ROLE_USER");
 	
 	private final String role_user;
 	

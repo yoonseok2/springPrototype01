@@ -57,6 +57,9 @@ public class Member implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private UserRole roles;
 	
+	@Column
+	private String refreshToken;
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub

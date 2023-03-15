@@ -1,5 +1,7 @@
 package com.gryard.basecamp.dto;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,4 +29,8 @@ public class CommonResult {
 
     @ApiModelProperty(value = "현재 날짜")
     private String today;
+    
+ 
+    @ApiModelProperty(value="응답 메시지(map)")
+    private Map<String,String> msgMap;
 }
